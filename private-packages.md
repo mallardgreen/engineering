@@ -1,28 +1,34 @@
 # Private Packages
 
-To consume `@mallardgreen` private packages follow these steps:
+Projects can consume private `@mallardgreen/*` packages from GitHub Packages.
 
-On a new machine, authenticate GitHub CLI:
+## One-time setup
+
+Authenticate GitHub CLI and grant package read access:
 
 ```sh
 gh auth login
 gh auth refresh -h github.com -s read:packages
 ```
 
-Store the GitHub Packages token globally for (p)npm:
+Store that token in your global npm config:
 
 ```sh
 npm config set //npm.pkg.github.com/:_authToken "$(gh auth token)"
 ```
 
-In any project that consumes `@mallardgreen/*` packages, commit this `.npmrc`:
+## Project setup
+
+Commit this `.npmrc` in any project that installs `@mallardgreen/*` packages:
 
 ```ini
 @mallardgreen:registry=https://npm.pkg.github.com
 ```
 
-Then install with pnpm:
+Then install normally:
 
 ```sh
 pnpm add @mallardgreen/relic
 ```
+
+Do not commit auth tokens. The committed `.npmrc` should only contain the scoped registry line above.
